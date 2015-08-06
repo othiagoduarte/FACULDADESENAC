@@ -1,3 +1,3 @@
 <h1>Faculdade Senac Porto Alegre</h1>
-
-Trabalhos - Banco de dados
+<hr>
+<h2>Trabalhos - Banco de dados</h2>
