@@ -9,7 +9,10 @@ cnh char(5) references ex_motorista(cnh) not null,
 velocidadeApurada decimal(5,2) not null,
 velocidadeCalculada decimal(5,2),
 pontos integer not null,
-valor decimal(9,2) not null);
+valor decimal(9,2) not null,
+infracao char(10) references ex_categoriaMulta(infracao) not null,
+DataInfracao DATE default NOW()
+);
 
 insert into ex_motorista values
 ('123AB', 'Carlo');
