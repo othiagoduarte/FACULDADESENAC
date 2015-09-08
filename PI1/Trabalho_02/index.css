@@ -1,5 +1,17 @@
 .tabela-contatos table{
-
-	border:groove;
+	min-width: 400px;
+	max-width: 400px;
 	
+}
+.tabela-contatos table, th, td {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+.tabela-contatos th, td {
+    border: 1px solid black;
+    padding: 10px;
+}
+.tabela-contatos th {
+    background-color: blue;
+    color : white;
 }
