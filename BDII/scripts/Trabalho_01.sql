@@ -82,36 +82,30 @@ Language PlpgSQL;
 Create or Replace Function FN_ConsultaPontosValor() 
 Returns setof  record AS 
 $$
-begin 
-return query 	
+
+ 	
 select mu.Infracao, sum(valor) totalPontos
   from ex_motorista mo
  inner join ex_Multa mu on mu.CNH = mo.CNH
  group by mu.Infracao;
 	
-
-end	
-
-	
 $$ 
-Language PlpgSQL;
-
-
+Language sql;
 
 
 Create or Replace Function FN_ConsultaInfracaoPontosValor() 
 Returns setof  record AS 
 $$
 
+<<<<<<< HEAD
 begin 
 	return 
+=======
+>>>>>>> a3ddc1582bfda12738cba445ea521d51d5c2ab0c
          select Count(*) as TotalInfracao,mu.Infracao, DataInfracao,sum(pontos) totalPontos
 	   from ex_motorista mo
 	   inner join ex_Multa mu on mu.CNH = mo.CNH
 	   group by mu.Infracao, DataInfracao;
-	
-
-end
 
 $$ 
-Language PlpgSQL;
+Language sql;
