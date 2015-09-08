@@ -104,7 +104,7 @@ Returns setof  record AS
 $$
 
 begin 
-	return query 
+	return 
          select Count(*) as TotalInfracao,mu.Infracao, DataInfracao,sum(pontos) totalPontos
 	   from ex_motorista mo
 	   inner join ex_Multa mu on mu.CNH = mo.CNH
