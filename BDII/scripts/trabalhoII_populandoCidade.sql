@@ -1,0 +1,208 @@
+﻿CREATE TABLE CIDADE (
+  id_cidade INTEGER NOT NULL ,
+  nome varchar(120),
+  
+  PRIMARY KEY (id_cidade));
+
+  INSERT INTO CIDADE
+ VALUES (1, 'Afonso Cláudio');
+ INSERT INTO CIDADE 
+ VALUES(2, 'Água Doce do Norte');
+ INSERT INTO CIDADE
+ VALUES(3, 'Águia Branca');
+ INSERT INTO CIDADE 
+ VALUES(4, 'Alegre');
+ INSERT INTO CIDADE 
+ VALUES(5, 'Alfredo Chaves');
+ INSERT INTO CIDADE 
+ VALUES(6, 'Alto Rio Novo');
+ INSERT INTO CIDADE 
+ VALUES(7, 'Anchieta');
+ INSERT INTO CIDADE 
+ VALUES(8, 'Apiacá');
+ INSERT INTO CIDADE 
+ VALUES(9, 'Aracruz');
+ INSERT INTO CIDADE 
+ VALUES(10, 'Atilio Vivacqua');
+ INSERT INTO CIDADE 
+ VALUES(11, 'Baixo Guandu');
+ INSERT INTO CIDADE 
+ VALUES(12, 'Barra de São Francisco');
+ INSERT INTO CIDADE 
+ VALUES(13, 'Boa Esperança');
+ INSERT INTO CIDADE 
+ VALUES(14, 'Bom Jesus do Norte');
+ INSERT INTO CIDADE 
+ VALUES(15, 'Brejetuba');
+ INSERT INTO CIDADE 
+ VALUES(16, 'Cachoeiro de Itapemirim');
+ INSERT INTO CIDADE 
+ VALUES(17, 'Cariacica');
+ INSERT INTO CIDADE 
+ VALUES(18, 'Castelo');
+ INSERT INTO CIDADE 
+ VALUES(19, 'Colatina');
+ INSERT INTO CIDADE 
+ VALUES(20, 'Conceição da Barra');
+ INSERT INTO CIDADE 
+ VALUES(21, 'Conceição do Castelo');
+ INSERT INTO CIDADE 
+ VALUES(22, 'Divino de São Lourenço');
+ INSERT INTO CIDADE 
+ VALUES(23, 'Domingos Martins');
+ INSERT INTO CIDADE 
+ VALUES(24, 'Dores do Rio Preto');
+ INSERT INTO CIDADE 
+ VALUES(25, 'Ecoporanga');
+ INSERT INTO CIDADE 
+ VALUES(26, 'Fundão');
+ INSERT INTO CIDADE 
+ VALUES(27, 'Governador Lindenberg');
+ INSERT INTO CIDADE 
+ VALUES(28, 'Guaçuí');
+ INSERT INTO CIDADE 
+ VALUES(29, 'Guarapari');
+ INSERT INTO CIDADE
+ VALUES(30, 'Ibatiba');
+ INSERT INTO CIDADE 
+ VALUES(31, 'Ibiraçu');
+ INSERT INTO CIDADE 
+ VALUES(32, 'Ibitirama');
+ INSERT INTO CIDADE 
+ VALUES(33, 'Iconha');
+ INSERT INTO CIDADE 
+ VALUES(34, 'Irupi');
+ INSERT INTO CIDADE 
+ VALUES(35, 'Itaguaçu');
+ INSERT INTO CIDADE 
+ VALUES(36, 'Itapemirim');
+ INSERT INTO CIDADE 
+ VALUES(37, 'Itarana');
+ INSERT INTO CIDADE 
+ VALUES(38, 'Iúna');
+ INSERT INTO CIDADE 
+ VALUES(39, 'Jaguaré');
+ INSERT INTO CIDADE 
+ VALUES(40, 'Jerônimo Monteiro');
+ INSERT INTO CIDADE 
+ VALUES(41, 'João Neiva');
+ INSERT INTO CIDADE 
+ VALUES(42, 'Laranja da Terra');
+ INSERT INTO CIDADE 
+ VALUES(43, 'Linhares');
+ INSERT INTO CIDADE 
+ VALUES(44, 'Mantenópolis');
+ INSERT INTO CIDADE 
+ VALUES (45, 'Marataízes');
+ INSERT INTO CIDADE 
+ VALUES(46, 'Marechal Floriano');
+ INSERT INTO CIDADE 
+ VALUES(47, 'Marilândia');
+ INSERT INTO CIDADE 
+ VALUES(48, 'Mimoso do Sul');
+ INSERT INTO CIDADE 
+ VALUES(49, 'Montanha');
+ INSERT INTO CIDADE 
+ VALUES(50, 'Mucurici');
+ INSERT INTO CIDADE 
+ VALUES(51, 'Muniz Freire');
+ INSERT INTO CIDADE 
+ VALUES(52, 'Muqui');
+ INSERT INTO CIDADE 
+ VALUES(53, 'Nova Venécia');
+ INSERT INTO CIDADE 
+ VALUES(54, 'Pancas');
+ INSERT INTO CIDADE 
+ VALUES(55, 'Pedro Canário');
+ INSERT INTO CIDADE 
+ VALUES(56, 'Pinheiros');
+ INSERT INTO CIDADE 
+ VALUES(57, 'Piúma');
+ INSERT INTO CIDADE 
+ VALUES(58, 'Ponto Belo');
+ INSERT INTO CIDADE 
+ VALUES(59, 'Presidente Kennedy');
+ INSERT INTO CIDADE 
+ VALUES(60, 'Rio Bananal');
+ INSERT INTO CIDADE 
+ VALUES(61, 'Rio Novo do Sul');
+ INSERT INTO CIDADE 
+ VALUES(62, 'Santa Leopoldina');
+ INSERT INTO CIDADE 
+ VALUES(63, 'Santa Maria de Jetibá');
+ INSERT INTO CIDADE 
+ VALUES(64, 'Santa Teresa');
+ INSERT INTO CIDADE 
+ VALUES(65, 'São Domingos do Norte');
+ INSERT INTO CIDADE 
+ VALUES(66, 'São Gabriel da Palha');
+ INSERT INTO CIDADE 
+ VALUES(67, 'São José do Calçado');
+ INSERT INTO CIDADE 
+ VALUES(68, 'São Mateus');
+ INSERT INTO CIDADE 
+ VALUES(69, 'São Roque do Canaã');
+ INSERT INTO CIDADE 
+ VALUES(70, 'Serra');
+ INSERT INTO CIDADE 
+ VALUES(71, 'Sooretama');
+ INSERT INTO CIDADE 
+ VALUES(72, 'Vargem Alta');
+ INSERT INTO CIDADE 
+ VALUES(73, 'Venda Nova do Imigrante');
+ INSERT INTO CIDADE 
+ VALUES(74, 'Viana');
+ INSERT INTO CIDADE 
+ VALUES(75, 'Vila Pavão');
+ INSERT INTO CIDADE 
+ VALUES(76, 'Vila Valério');
+ INSERT INTO CIDADE 
+ VALUES(77, 'Vila Velha');
+ INSERT INTO CIDADE 
+ VALUES(78, 'Vitória');
+ INSERT INTO CIDADE 
+ VALUES(79, 'Acrelândia');
+ INSERT INTO CIDADE 
+ VALUES(80, 'Assis Brasil');
+ INSERT INTO CIDADE 
+ VALUES(81, 'Brasiléia');
+ INSERT INTO CIDADE 
+ VALUES(82, 'Bujari');
+ INSERT INTO CIDADE
+ VALUES(83, 'Capixaba');
+ INSERT INTO CIDADE 
+ VALUES(84, 'Cruzeiro do Sul');
+ INSERT INTO CIDADE 
+ VALUES(85, 'Epitaciolândia');
+ INSERT INTO CIDADE 
+ VALUES(86, 'Feijó');
+ INSERT INTO CIDADE 
+ VALUES(87, 'Jordão');
+ INSERT INTO CIDADE 
+ VALUES(88, 'Mâncio Lima');
+ INSERT INTO CIDADE 
+ VALUES(89, 'Manoel Urbano');
+ INSERT INTO CIDADE 
+ VALUES(90, 'Marechal Thaumaturgo');
+ INSERT INTO CIDADE 
+ VALUES(91, 'Plácido de Castro');
+ INSERT INTO CIDADE 
+ VALUES(92, 'Porto Acre');
+ INSERT INTO CIDADE 
+ VALUES(93, 'Porto Walter');
+ INSERT INTO CIDADE 
+ VALUES(94, 'Rio Branco');
+ INSERT INTO CIDADE 
+ VALUES(95, 'Rodrigues Alves');
+ INSERT INTO CIDADE 
+ VALUES(96, 'Santa Rosa do Purus');
+ INSERT INTO CIDADE 
+ VALUES(97, 'Sena Madureira');
+ INSERT INTO CIDADE 
+ VALUES(98, 'Senador Guiomard');
+ INSERT INTO CIDADE 
+ VALUES(99, 'Tarauacá');
+ INSERT INTO CIDADE 
+ VALUES(100, 'Xapuri');
+
+select * from cidade
