@@ -119,10 +119,7 @@ end ;
 
 $BODY$
   LANGUAGE plpgsql;
-  -- Function: fn_inserirhospedes(integer, integer, integer)
-
--- DROP FUNCTION fn_inserirhospedes(integer, integer, integer);
-
+  
 CREATE OR REPLACE FUNCTION fn_inserirhospedes(p_qtd integer, p_minidade integer, p_maxidade integer)
   RETURNS character varying AS
 $BODY$
@@ -131,21 +128,15 @@ Declare
 begin 
 
 	if P_MinIdade < 18 OR P_MinIdade > 65 then
-
-		return 'Idade mínima inválida';
-
+		raise notice 'Idade mínima inválida';
 	end if;
 
 	if P_MaxIdade < 18 OR P_MaxIdade > 65 then
-
-		return 'Idade máxima inválida';
-
+		raise notice 'Idade máxima inválida';
 	end if;
 
 	if P_MinIdade >= P_MaxIdade  then
-
-		return 'Idade mínima deve ser maior que a idade máxima';
-
+		raise notice 'Idade mínima deve ser maior que a idade máxima';
 	end if;
 
 	FOR i IN 1..P_qtd LOOP
@@ -168,3 +159,155 @@ end ;
 
 $BODY$
   LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION fn_preenhcerhospedagen(p_qtd integer, p_dataInicial date ,p_dataFinal date )
+  RETURNS varchar AS
+$$
+declare
+
+	V_dataEntrada date;
+	V_dataSaida date;
+	V_diferenca integer;
+	V_quartos integer[]; 
+	V_numAux integer;
+	cur_hospedes refCursor;
+	v_codHospede integer;
+	v_codAtendente integer;
+	
+begin 
+
+	begin --Validação dos parâmetros de entrada - Inicio
+		if p_qtd is null then
+			RAISE EXCEPTION 'a quantidade não pode ser nula ';
+		end if;
+		
+		if p_qtd <= 0 then
+			RAISE EXCEPTION 'a quantidade tem que ser maior que ZERO';
+		end if;
+
+		if p_dataInicial is null then
+			RAISE EXCEPTION 'Data inicial não pode ser nula';
+		end if;
+		
+		if p_dataFinal is null then
+			RAISE EXCEPTION 'Data final não pode ser nula';
+		end if;
+		
+		if p_dataInicial >= p_dataFinal then
+			RAISE EXCEPTION 'Data inicial tem que ser menor que a data final';
+		end if;
+	end;--Validação dos parâmetros de entrada - Fim
+
+	Begin 
+
+		open cur_hospedes
+
+		for
+			select codHospede 
+			 from Hospede h1
+			where not exists (select 'N' from Hospedagem h2
+					    where h2.codHospede = h1.CodHospede
+					 ) 
+			order by random()
+			limit p_qtd;
+				
+		for i in 1.. 200 loop
+
+			V_quartos[i]:= 100 + coalesce((select max(numQuarto) from hospedagem ),0) +  i;
+			
+		end loop;
+				
+		For i in 1..p_qtd loop
+
+			FETCH cur_hospedes INTO v_codHospede;
+
+			select codAtendente into v_codAtendente
+			 from atendente
+			 order by random()
+			 limit 1;
+
+			V_diferenca:= trunc((random ()* (p_dataFinal - p_dataInicial))) + 1;
+			v_dataEntrada:= (p_dataInicial + V_diferenca);
+
+			V_diferenca:= trunc((random ()* (p_dataFinal - v_dataEntrada))) + 1;
+			v_dataSaida:= (v_dataEntrada + V_diferenca);
+	
+			If ( i % 3) = 0 then
+				v_dataSaida:= null;
+				raise notice 'Data Entrada:% Data saida: % Numero do quarto% hospede: % Atendente: %',v_dataEntrada,v_dataSaida, V_quartos[i], v_codHospede,v_codAtendente;
+			else
+				raise notice 'Data Entrada:% Data saida: % Numero do quarto% hospede: % Atendente: %',v_dataEntrada,v_dataSaida, V_quartos[i],v_codHospede,v_codAtendente;
+			end if;
+			
+			insert into Hospedagem( codAtendente, codHospede, DataEntrada ,DataSaida, numQuarto,valorDiaria)
+			values( v_codAtendente,v_codHospede,v_dataEntrada, v_dataSaida,V_quartos[i],0);
+			
+		End loop;
+
+		close cur_hospedes;
+		
+		commit;
+		
+	End;
+
+return 'Sucesso ao inserir';
+
+End;
+
+$$
+LANGUAGE plpgsql;
+create or replace Function FN_atualizarHospedagem(P_codHospedagem  integer, P_codAtendente integer, P_datasaida date ,P_valorDiaria decimal)
+returns integer as
+$$
+declare
+
+V_sql varchar(1000);
+V_alteracao varchar(200);
+v_total integer;
+begin
+
+	if (P_codHospedagem is null ) then
+		raise exception 'Codigo da hospedagem invalido. O valor não pode ser nulo';
+	end if;  
+	
+	if (P_codatendente <= 0) then
+		raise exception 'Codigo da hospedagem invalido. O valor tem que ser maior que ZERO';
+	end if;
+
+	if (P_codAtendente is not null) and P_codAtendente > 0  then
+	
+		perform codAtendente from  Atendente where codAtendente = P_codAtendente; 
+
+		if not Found then
+			raise exception 'O codigo do atentende informado não existe';
+		end if;
+		
+	end if;
+
+		 
+	V_alteracao:= '';	
+	if P_codAtendente  is not null then
+		V_alteracao:= V_alteracao ||' codAtendente = '||P_codAtendente;
+	End if;
+
+	if P_datasaida is not null then
+		V_alteracao:= V_alteracao || ', datasaida = ' ||QUOTE_LITERAL(P_datasaida);
+	end if;
+
+	if P_valorDiaria is not null then
+		V_alteracao:= V_alteracao || ',valorDiaria = '||P_valorDiaria ;
+	end if;
+	
+	V_sql:= ' UPDATE HOSPEDAGEM SET';
+	V_sql:= V_sql || V_alteracao; 
+	V_sql:= V_sql || ' WHERE CODHOSPEDAGEM = ' ||P_codHospedagem ;
+
+	execute V_sql;
+	
+	raise notice 'query %',V_sql;
+	
+	GET DIAGNOSTICS v_total = ROW_COUNT;
+	return v_total;
+end;
+$$
+language
+plPGsql;
