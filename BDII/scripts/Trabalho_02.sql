@@ -311,3 +311,100 @@ end;
 $$
 language
 plPGsql;
+
+--Cosultas - 1
+
+	select h2.Nome as NomeHospede
+		  ,a.Nome as NomeAtendente
+		  ,h1.NumQuarto
+		  ,((h1.DataSaida - h1.DataEntrada) * h1.ValorDiaria) as ValorHospedagem
+	  from hospedagem h1
+	 inner join hospede h2 on h2.CodHospede = h1.CodHospede
+				  and h2.DataNascimento < ( now() - ( interval '21 YEAR' ))
+	 inner join Atendente a on a.CodAtendente = h1.CodAtendente
+	 where h1.DataSaida is not null
+	   and exists ( select h3.DataEntrada
+					from hospedagem h3
+				   inner join hospede h4 on h4.CodHospede = h3.CodHospede
+											and h4.DataNascimento between ( now() - ( interval '45 YEAR' )) and ( now() - ( interval '40 YEAR' ))
+				   where h1.DataEntrada > h3.DataEntrada 
+			   )
+	 order by ((h1.DataSaida - h1.DataEntrada) * h1.ValorDiaria) ,h2.Nome
+	 limit 10
+			 
+--Cosultas - 2			 
+
+select to_char(DataSaida ,'YYYYMM') Periodo
+      ,sum( (h.dataSaida - h.DataEntrada) * h.valorDiaria) valorTotal
+      ,upper(a2.Nome) as Superior
+  from hospedagem h 
+  inner join atendente a on a.codAtendente = h.codAtendente
+  inner join atendente a2 on a2.CodAtendente = a.CodSuperior
+  where dataSaida is not null  
+    and dataSaida not between '01/06/2015' and '30/07/2015'
+    and ((h.dataSaida - h.DataEntrada) * h.valorDiaria) > (select trunc(avg((h3.dataSaida - h3.DataEntrada) * h3.valorDiaria)) 
+							    from hospedagem h3 
+					                   where h3.DataSaida is not null
+                                                           limit 10
+							 )
+ group by to_char(DataSaida ,'YYYYMM') ,a2.Nome
+ order by to_char(DataSaida ,'YYYYMM')
+ --Consulta - 3
+ 
+ select h2.Nome
+      ,sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria) valorTotal
+      ,case
+	when (sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria)) between 0 and 1000 then
+	'E'
+	when (sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria)) between 1000.01 and 3000.00 then
+	'D'
+	when (sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria)) between 3000.01  and 7000.00 then
+	'C'
+	when (sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria)) between 7001.00  and 10000 then
+	'B'
+	when (sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria)) > 10000 then
+	'10'
+	else
+	'N'
+      end as Classe 	
+  from hospedagem h1
+ inner join hospede h2 on h2.CodHospede = h1.CodHospede
+ inner join Atendente a on a.CodAtendente = h1.CodAtendente
+		       and ( substring(h2.Cidade,1,1) in ('A','M')
+		           or exists ( select h5.Nome
+					 from hospedagem h4
+					inner join Hospede h5 on h5.CodHospede = h4.CodHospede
+		                                             and h5.Nome like '%FABIO%'
+		                                             and h5.codHospede = h2.codHospede 
+					where h4.DataEntrada > ( now() - interval '30 DAYS' )
+					) 
+		          )
+ where h1.DataEntrada > '01/01/2010'
+ group by h2.Nome
+ order by Classe, Nome
+ 
+ ;
+ select h2.Cidade
+       ,(sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria)) valorTotal	
+  from hospedagem h1
+ inner join hospede h2 on h2.CodHospede = h1.CodHospede
+ where h1.DataSaida is not null
+ group by h2.Cidade
+ having ((sum( (h1.dataSaida - h1.DataEntrada) * h1.valorDiaria))  in (select (sum( (h4.dataSaida - h4.DataEntrada) * h4.valorDiaria)) valorTotal	
+								       from hospedagem h4
+								      inner join hospede h3 on h3.CodHospede = h4.CodHospede
+								      where h4.DataSaida is not null
+								      group by h3.Cidade	
+								      order by valorTotal desc
+								     limit 3)
+	)
+ order by valorTotal desc
+ ;
+ select a1.Nome NomeAtendente, a2.Nome as NomeSuperior , Count(h1.CodHospedagem) Atendimento
+  from Atendente a1 
+ left join Hospedagem h1 on a1.CodAtendente = h1.CodAtendente 
+			and h1.DataEntrada > (( now() - interval '30 DAY' ))
+ inner join Atendente a2 on a2.CodAtendente = a1.CodSuperior
+ group by a2.CodAtendente ,a1.CodAtendente 
+ order by Atendimento desc 
+
